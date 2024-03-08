@@ -1,0 +1,125 @@
+\appendix
+
+%%%%%%%%%%%%%%%%
+%
+%   Lindblad
+%
+%%%%%%%%%%%%%%%%
+
+% \section{Quick note on Linblad master equation}
+% \label{appendix:lindblad_equation}
+
+
+%%%%%%%%%%%%%%%%
+%
+%   Link entropy // measurements
+%
+%%%%%%%%%%%%%%%%
+
+\section{Entropy and quantum measurement}
+\label{appendix:entropy_measurement}
+
+Entropy measures the lack of knowledge of a certain realisation of the state $\ket{\psi}$. Indeed, if the system is in a pure state, $S(\rho) = 0$, and $S(\rho) > 0$ otherwise. 
+
+As a result, using Klein inequality, the von Neumann entropy can only increase for non-selective measurements (a measurement for which we do not read out the result).
+
+However, for generalized non-selective measurements, characteristic features of open quantum systems, this is not necessarily the case. 
+Indeed, let us consider a qubit described by the states $\ket{0}$ and $\ket{1}$. We build the following positive operator-valued measure (POVMs): 
+\begin{align}
+    \Omega_0^\dag \Omega_0 = \ket{0} \bra{0} \\ 
+    \Omega_1^\dag \Omega_1 = \ket{1} \bra{1}  
+\end{align}
+where ($\sum_i \Omega_i^\dag \Omega_i = {\rm I}$):
+\begin{align}
+    \Omega_0 = \ket{0}\bra{0} \\
+    \Omega_1 = \ket{0}\bra{1}
+\end{align}
+The associated generalized measurement of the map $\rho^M = \sum_i \Omega_i \rho \Omega_i^\dag = \ket{0}\bra{0} $ will thus always read the state $\ket{0}$, which is a pure state. In that case, $S(\rho^M) = 0$. Starting from a mixed state ($S(\rho) > 0$), the entropy decreases. Therefore, one can increase or decrease the entropy of a system with generalized non-selective measurements. 
+
+The von Neumann entropy is thus a relevant physical quantity for the system. This is why in appendix \ref{appendix:min_entropy_production} we present our first (unsuccessful) attempt to approximate the steady state with a variational method, which is entropy production minimization.
+
+%%%%%%%%%%%%%%%%
+%
+%   Entropy production
+%
+%%%%%%%%%%%%%%%%
+
+\section{Minimization of entropy production}
+\label{appendix:min_entropy_production}
+
+\newcommand{\dd}[1]{\ensuremath{{\rm d}#1}}
+
+\newcommand{\id}{\ensuremath{{\rm I}}}
+
+We tried to characterized the steady state $\rho$ as the state which minimizes entropy production ($\delta S = 0$, $S$ being the von Neumann entropy). A variational method using this quantity would thus minimize the following quantity:
+\begin{equation}
+\label{eq:def_entropy_production}
+\norm{\delta S} \equiv \norm{S(\rho(t+\dd{t}) - S(\rho(t))}
+\end{equation}
+
+We introduce $D(\rho, \dot \rho)$ as: 
+\begin{equation}
+    D(\rho, \dot \rho) = \int_0^\infty \dd{z} \, \frac{\id}{\rho + z \id} \, \dot \rho \, \frac{\id}{\rho + z \id}
+\end{equation}
+where $\id$ is the identity. By Taylor expanding the matrix $\ln$ \cite{adlertaylor} we get:
+\begin{equation*}
+    S(\rho(t + \dd{t})) - S(\rho(t)) = - \dd{t} \left( \trace{\dot \rho \ln{\rho}} + \trace{\rho \, D(\rho, \dot \rho)} \right)
+\end{equation*}
+
+Finally, the variational problem \ref{eq:def_entropy_production} reduces to finding the minimum of:
+\begin{equation}
+\label{eq:appendix_variational_expr_entropy_prod}
+    \min \norm{\delta S} \Leftrightarrow  \min \norm{ \trace{\dot \rho \ln{\rho}} + \trace{\rho \, D(\rho, \dot \rho)} }
+\end{equation}
+
+However, expression \ref{eq:appendix_variational_expr_entropy_prod} is difficult to work with from a variational perspective, so we considered this path as a dead end.
+
+
+%%%%%%%%%%%%%%%%
+%
+%   Entropy production
+%
+%%%%%%%%%%%%%%%%
+
+
+% \newcommand{\dd}[1]{\ensuremath{{\rm d}#1}}
+
+% \newcommand{\id}{\ensuremath{\text{I}}}
+
+\section{Analytical derivation of the steady state of a damped harmonic oscillator}
+\label{appendix:analytics_toy_model}
+
+We consider the following problem:
+\begin{equation}
+\label{eq:toy_model_appendix}
+\begin{split}
+    \mathcal{L} \,\rho = &- i\mkern1mu \left[ H, \rho \right] \\ &+ \gamma (\bar n + 1) \left( a \rho  a^\dag - \frac{1}{2} \left\{  a^\dag   a,  \rho \right\} \right)\\ &+ \gamma \bar n  \left( a^\dag  \rho  a - \frac{1}{2} \left\{ a   a^\dag,  \rho \right\} \right)
+    \end{split}
+\end{equation}
+\begin{equation}
+    H =  a^\dag a
+\end{equation}
+where $\gamma$ is the rate of the damping of the cavity mode, $a^\dag$ and $a$ are respectively the creation and annihilation operators, and $\bar n = \left( \exp{\beta \omega_0} - 1 \right)^{-1}$ is the mean number of quanta in a mode with frequency $\omega_0$ of the thermal reservoir with inverse temperature $\beta$ (here $\omega_0=1$).
+
+We first write the unkown steady-state density matrix $\rho$ in the basis of the oscillator eigenstates $\{\ket{n}\}$:
+$\rho = \sum_{k,l} C_{kl} \ket{k} \bra{l}$. By plugging this expression into \ref{eq:toy_model_appendix}, we get the following condition on the probability amplitudes for the steady state: $C_{kl} = 0$ if $k \ne l$.
+
+The steady-state density matrix is thus diagonal:  $\rho = \sum_{n} C_{n} \ket{n} \bra{n}$. By again plugging this expression into \ref{eq:toy_model_appendix}, we get the new condition:
+\begin{equation*}
+    0 = (\bar n + 1) \left( (n+1)C_{n+1} - n C_n \right) + \bar n  \left( n C_{n-1} - (n+1) C_{n-1} \right)
+\end{equation*}
+which admits the following solution (using $\trace{\rho}=1$): $C_n = \frac{1}{\bar n+1} \left( \frac{\bar n}{\bar n +1} \right)^n$.
+
+As a result, $\rho = \frac{1}{1 + \bar n} \sum_n {\rm e}^{-\beta n} \ket{n} \bra{n}$, which simplifies to:
+\begin{equation}
+\boxed{
+    \rho = \gge{- \beta H}
+    }
+\end{equation}
+
+
+
+
+
+
+
